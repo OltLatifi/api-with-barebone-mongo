@@ -44,4 +44,16 @@ const getOneBook =(req, res)=>{
   
 }
 
-module.exports = {getBooks, getOneBook}
+
+const makeBook = (req, res) =>{
+  let data = req.body;
+  getDb().collection("books").insertOne(data)
+   .then((result)=>{
+     res.status(201).json(data);
+   })
+   .catch(()=>{
+     res.status(500).json({error:"Could not create a book, perhaps you didnt enter valid data"})
+   });
+}
+
+module.exports = {getBooks, getOneBook, makeBook}
