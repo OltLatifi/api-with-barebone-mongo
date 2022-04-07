@@ -71,4 +71,20 @@ const deleteOneBook = (req, res) =>{
   }
   
 }
-module.exports = {getBooks, getOneBook, makeBook, deleteOneBook}
+const updateOneBook = (req, res) =>{
+  let data = req.body;
+
+  if(ObjectId.isValid){
+    getDb().collection("books").updateOne({_id: ObjectId(req.params.id)}, {$set: data})
+    .then((status) =>{
+     res.status(200).json(data);
+    })
+    .catch(()=>{
+     res.status(500).json({error:"Could not update document"})
+    });
+  }else{
+    res.json({error:"Could not find a document with that id"})
+  }
+  
+}
+module.exports = {getBooks, getOneBook, makeBook, deleteOneBook, updateOneBook}
