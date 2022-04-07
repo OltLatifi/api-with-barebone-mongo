@@ -48,12 +48,27 @@ const getOneBook =(req, res)=>{
 const makeBook = (req, res) =>{
   let data = req.body;
   getDb().collection("books").insertOne(data)
-   .then((result)=>{
+   .then(()=>{
      res.status(201).json(data);
    })
    .catch(()=>{
-     res.status(500).json({error:"Could not create a book, perhaps you didnt enter valid data"})
+     res.status(500).json({error:"Could not create a document, perhaps you didn't enter valid data"})
    });
 }
 
-module.exports = {getBooks, getOneBook, makeBook}
+
+const deleteOneBook = (req, res) =>{
+  if(ObjectId.isValid){
+    getDb().collection("books").deleteOne({_id: ObjectId(req.params.id)})
+    .then((result)=>{
+     res.status(200).json(result);
+    })
+    .catch(()=>{
+     res.status(500).json({error:"Could not delete document"})
+    });
+  }else{
+    res.json({error:"Could not find a document with that id"})
+  }
+  
+}
+module.exports = {getBooks, getOneBook, makeBook, deleteOneBook}

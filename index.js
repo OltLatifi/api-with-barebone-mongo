@@ -15,8 +15,14 @@ connectToDb((error) => {
 });
 
 // routes
-const {getBooks, getOneBook, makeBook} = require('./routes')
+const {getBooks, getOneBook, makeBook, deleteOneBook} = require('./routes')
 
+// read
 app.get("/books", getBooks);
 app.get("/books/:id", getOneBook);
+
+// post
 app.post("/books", makeBook);
+
+// delete
+app.delete("/books/:id", deleteOneBook);
